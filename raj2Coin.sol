@@ -6,7 +6,7 @@ import "./node_modules/openzeppelin-contracts/token/ERC20/ERC20.sol";
 
 
 //Contract token raj2Coin
-contract Token is ERC20 ("raj2Coin", "RAJ2") {
+contract Token is ERC20 ("Menon Administration", "MENON2") {
     address internal admin; // Address of the Admin
     address internal treasurer; // Address of the Treasurer
     address internal salesManager; // Address of the sales manager
