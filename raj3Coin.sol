@@ -285,5 +285,21 @@ contract Raj3Coin is PausableToken {
         emit Transfer(address(0), account, amount);
     }
 
+    //mapping for discountCoupon
+    mapping (address => uint256) discountCoupon;
+
+    function applyDiscoubt(address _account, uint256 _value) public view onlySalesManager returns (uint256){
+       discountCoupon[_account] = _value;
+    }
+
+
+    function discountedTransfer(address _from, address _to, uint256 _value) public onlySalesManager {
+        _value = _value*(1-discountCoupon[_to]/100);
+        transferFrom(_from, _to, _value);
+        discountCoupon[_account] = 0;
+        emit transferFrom(_from, _to, _value);
+        return true;
+    }
+
     
 }

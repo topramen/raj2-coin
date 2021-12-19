@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.4.26+commit.4563c3fc"
+		"version": "0.4.24+commit.e67f0147"
 	},
 	"language": "Solidity",
 	"output": {
