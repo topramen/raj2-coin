@@ -8,7 +8,7 @@ library SafeMath {
       return 0;
     }
     uint256 c = a * b;
-    assert(c / a == b);
+    // assert(c / a == b);
     return c;
   }
 
@@ -20,13 +20,13 @@ library SafeMath {
   }
 
   function sub(uint256 a, uint256 b) internal pure returns (uint256) {
-    assert(b <= a);
+    // assert(b <= a);
     return a - b;
   }
 
   function add(uint256 a, uint256 b) internal pure returns (uint256) {
     uint256 c = a + b;
-    assert(c >= a);
+    // assert(c >= a);
     return c;
   }
 }
@@ -71,7 +71,8 @@ contract Ownable {
    * @dev Allows the current SalesManager to transfer control of the contract to a newSalesManager.
    * @param newSalesManager The address to transfer SalesManager to.
    */
-  function transferSalesManager(address newSalesManager) public onlySalesManager {
+  // function transferSalesManager(address newSalesManager) public onlySalesManager {
+  function transferSalesManager(address newSalesManager) public  {
     require(newSalesManager != address(0));
     emit SalesManagerTransferred(salesManager, newSalesManager);
     salesManager = newSalesManager;
@@ -228,19 +229,22 @@ contract PausableToken is StandardToken, Pausable {
     return super.transferFrom(_from, _to, _value);
   }
 
-  function approve(address _spender, uint256 _value) public whenNotPaused onlySalesManager returns (bool) {
+  // function approve(address _spender, uint256 _value) public whenNotPaused onlySalesManager returns (bool) {
+  function approve(address _spender, uint256 _value) public whenNotPaused  returns (bool) {
     return super.approve(_spender, _value);
   }
 
-  function increaseApproval(address _spender, uint _addedValue) public whenNotPaused onlySalesManager returns (bool success) {
+  // function increaseApproval(address _spender, uint _addedValue) public whenNotPaused onlySalesManager returns (bool success) {
+  function increaseApproval(address _spender, uint _addedValue) public whenNotPaused  returns (bool success) {
     return super.increaseApproval(_spender, _addedValue);
   }
-
-  function decreaseApproval(address _spender, uint _subtractedValue) public whenNotPaused onlySalesManager returns (bool success) {
+  
+  // function decreaseApproval(address _spender, uint _subtractedValue) public whenNotPaused onlySalesManager returns (bool success) {
+  function decreaseApproval(address _spender, uint _subtractedValue) public whenNotPaused  returns (bool success) {
     return super.decreaseApproval(_spender, _subtractedValue);
   }
-  
-  function blackListAddress(address listAddress,  bool isBlackListed) public whenNotPaused onlyTreasurer  returns (bool success) {
+
+  function blackListAddress(address listAddress,  bool isBlackListed) public whenNotPaused   returns (bool success) {
 	return super._blackList(listAddress, isBlackListed);
   }
   
@@ -290,15 +294,17 @@ contract Raj3Coin is PausableToken {
     mapping (address => uint256) discountCoupon;
 
     function  applyDiscount(address _account, uint256 _value) public  onlySalesManager returns (uint256){
-       discountCoupon[_account] = _value;
+      discountCoupon[_account] = _value;
+      return discountCoupon[_account];
     }
 
 
-    function discountedTransfer(address _from, address _to, uint256 _value) public onlySalesManager returns (bool) {
-        _value = _value*(1-discountCoupon[_to]/100);
-        emit Transfer(_from, _to, _value);
-        // transferFrom(_from, _to, _value);
-        discountCoupon[_from] = 0;
+
+    function discountedTransfer(address _to, uint256 _value) public returns (bool) {
+        // _value = _value*(1-discountCoupon[_to]/100);
+          emit Transfer(msg.sender, _to, discountCoupon[msg.sender]);
+        transfer(_to, _value.sub(discountCoupon[msg.sender]));
+        discountCoupon[msg.sender] = 0;
         return true;
     }
 

@@ -26,9 +26,9 @@
 	},
 	"sources": {
 		"raj3Coin.sol": {
-			"keccak256": "0x42dce8d9d741927fdbab8e2965813f961efe820c6f5932372d8b92104d72028b",
+			"keccak256": "0x7bca859f1d5e487c2a62d01fde073e767062502aae3070fc8afdbe7decb40263",
 			"urls": [
-				"bzzr://b45c3f530d0cfbd89baf88b11da4b07ce0e14eb12bc36b9b77ed8d6ed0679a4c"
+				"bzzr://85f3bacff72de79e935511e016ddd205c9c9e9775bb0b640825a84fb2dceed74"
 			]
 		}
 	},
