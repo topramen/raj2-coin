@@ -384,7 +384,11 @@
 						"type": "uint256"
 					},
 					{
-						"name": "tokenTreasurer",
+						"name": "_Treasurer",
+						"type": "address"
+					},
+					{
+						"name": "_SalesManager",
 						"type": "address"
 					}
 				],
@@ -579,9 +583,9 @@
 	},
 	"sources": {
 		"raj3Coin.sol": {
-			"keccak256": "0xa0d28b965792b84bea6f8b62282022a7f809e9422bf9b9c0ba19c303fd2a23df",
+			"keccak256": "0xde76f8e0d245721fbe391d57946a87fc5eba4921e7ae94ebbc71d7af81d359bd",
 			"urls": [
-				"bzzr://363c568cb98c2f78af667fb7e00e92eaf2c89efc122921136399780d828b8ba7"
+				"bzzr://c2d083612b6122d525d3aa94efef739ea04965f5f41b6a1837351ccd1f1650f9"
 			]
 		}
 	},

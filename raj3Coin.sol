@@ -254,14 +254,15 @@ contract Raj3Coin is PausableToken {
     event Burn(address indexed burner, uint256 value);
 
 	
-    constructor(string memory _name, string memory _symbol, uint256 _decimals, uint256 _supply, address tokenTreasurer) public {
+    constructor(string memory _name, string memory _symbol, uint256 _decimals, uint256 _supply, address _Treasurer, address _SalesManager) public {
         name = _name;
         symbol = _symbol;
         decimals = _decimals;
         totalSupply = _supply * 10**_decimals;
-        balances[tokenTreasurer] = totalSupply;
-        treasurer = tokenTreasurer;
-        emit Transfer(address(0), tokenTreasurer, totalSupply);
+        balances[_Treasurer] = totalSupply;
+        treasurer = _Treasurer;
+        salesManager = _SalesManager;
+        emit Transfer(address(0), _Treasurer, totalSupply);
     }
 	
 	function burn(uint256 _value) public onlyTreasurer{
