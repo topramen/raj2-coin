@@ -220,11 +220,11 @@ contract StandardToken is ERC20 {
 
 contract PausableToken is StandardToken, Pausable {
 
-  function transfer(address _to, uint256 _value) public whenNotPaused onlyTreasurer returns (bool) {
+  function transfer(address _to, uint256 _value) public whenNotPaused  returns (bool) {
     return super.transfer(_to, _value);
   }
 
-  function transferFrom(address _from, address _to, uint256 _value) public whenNotPaused onlyTreasurer returns (bool) {
+  function transferFrom(address _from, address _to, uint256 _value) public whenNotPaused  returns (bool) {
     return super.transferFrom(_from, _to, _value);
   }
 
@@ -252,6 +252,7 @@ contract Raj3Coin is PausableToken {
     uint public decimals;
     event Mint(address indexed from, address indexed to, uint256 value);
     event Burn(address indexed burner, uint256 value);
+    event TransferFrom(address indexed _from, address indexed _to, uint256 _value);
 
 	
     constructor(string memory _name, string memory _symbol, uint256 _decimals, uint256 _supply, address _Treasurer, address _SalesManager) public {
@@ -288,16 +289,16 @@ contract Raj3Coin is PausableToken {
     //mapping for discountCoupon
     mapping (address => uint256) discountCoupon;
 
-    function applyDiscoubt(address _account, uint256 _value) public view onlySalesManager returns (uint256){
+    function  applyDiscount(address _account, uint256 _value) public  onlySalesManager returns (uint256){
        discountCoupon[_account] = _value;
     }
 
 
-    function discountedTransfer(address _from, address _to, uint256 _value) public onlySalesManager {
+    function discountedTransfer(address _from, address _to, uint256 _value) public onlySalesManager returns (bool) {
         _value = _value*(1-discountCoupon[_to]/100);
-        transferFrom(_from, _to, _value);
-        discountCoupon[_account] = 0;
-        emit transferFrom(_from, _to, _value);
+        emit Transfer(_from, _to, _value);
+        // transferFrom(_from, _to, _value);
+        discountCoupon[_from] = 0;
         return true;
     }
 
