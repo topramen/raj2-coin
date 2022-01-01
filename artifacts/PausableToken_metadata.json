@@ -9,7 +9,7 @@
 				"constant": false,
 				"inputs": [
 					{
-						"name": "_spender",
+						"name": "_secondSignee",
 						"type": "address"
 					},
 					{
@@ -17,7 +17,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "approve",
+				"name": "firstSigneeApprove",
 				"outputs": [
 					{
 						"name": "",
@@ -44,6 +44,15 @@
 			},
 			{
 				"constant": false,
+				"inputs": [],
+				"name": "unpause",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
 				"inputs": [
 					{
 						"name": "_from",
@@ -58,22 +67,13 @@
 						"type": "uint256"
 					}
 				],
-				"name": "transferFrom",
+				"name": "secondSigneeTransfer",
 				"outputs": [
 					{
 						"name": "",
 						"type": "bool"
 					}
 				],
-				"payable": false,
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"constant": false,
-				"inputs": [],
-				"name": "unpause",
-				"outputs": [],
 				"payable": false,
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -96,7 +96,7 @@
 				"constant": false,
 				"inputs": [
 					{
-						"name": "_spender",
+						"name": "_secondSignee",
 						"type": "address"
 					},
 					{
@@ -221,7 +221,7 @@
 				"constant": false,
 				"inputs": [
 					{
-						"name": "_spender",
+						"name": "_secondSignee",
 						"type": "address"
 					},
 					{
@@ -248,7 +248,7 @@
 						"type": "address"
 					},
 					{
-						"name": "_spender",
+						"name": "_secondSignee",
 						"type": "address"
 					}
 				],
@@ -364,7 +364,7 @@
 					},
 					{
 						"indexed": true,
-						"name": "spender",
+						"name": "secondSignee",
 						"type": "address"
 					},
 					{
@@ -439,9 +439,9 @@
 	},
 	"sources": {
 		"raj3Coin.sol": {
-			"keccak256": "0x7bca859f1d5e487c2a62d01fde073e767062502aae3070fc8afdbe7decb40263",
+			"keccak256": "0xae8c541fc0c46f0e898e1f1b006ef63f335667c7d7891fcf9ec696c97f7709ee",
 			"urls": [
-				"bzzr://85f3bacff72de79e935511e016ddd205c9c9e9775bb0b640825a84fb2dceed74"
+				"bzzr://93570639e75e1dcebfbc6b1a079ee67887a0e310cf96b62cec6231d30610e4b5"
 			]
 		}
 	},

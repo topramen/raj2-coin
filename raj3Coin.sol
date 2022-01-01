@@ -128,10 +128,10 @@ contract ERC20Basic {
 }
 
 contract ERC20 is ERC20Basic {
-  function allowance(address treasurer, address spender) public view returns (uint256);
-  function transferFrom(address from, address to, uint256 value) public returns (bool);
-  function approve(address spender, uint256 value) public returns (bool);
-  event Approval(address indexed treasurer, address indexed spender, uint256 value);
+  function allowance(address treasurer, address secondSignee) public view returns (uint256);
+  function secondSigneeTransfer(address from, address to, uint256 value) public returns (bool);
+  function firstSigneeApprove(address secondSignee, uint256 value) public returns (bool);
+  event Approval(address indexed treasurer, address indexed secondSignee, uint256 value);
 }
 
 
@@ -163,7 +163,7 @@ contract StandardToken is ERC20 {
     return balances[_treasurer];
   }
 
-  function transferFrom(address _from, address _to, uint256 _value) public returns (bool) {
+  function secondSigneeTransfer(address _from, address _to, uint256 _value) public returns (bool) {
     require(tokenBlacklist[msg.sender] == false);
     require(_to != address(0));
     require(_value <= balances[_from]);
@@ -177,32 +177,32 @@ contract StandardToken is ERC20 {
   }
 
 
-  function approve(address _spender, uint256 _value)  public  returns (bool) {
-    allowed[msg.sender][_spender] = _value;
-    emit Approval(msg.sender, _spender, _value);
+  function firstSigneeApprove(address _secondSignee, uint256 _value)  public  returns (bool) {
+    allowed[msg.sender][_secondSignee] = _value;
+    emit Approval(msg.sender, _secondSignee, _value);
     return true;
   }
 
 
-  function allowance(address _treasurer, address _spender) public view  returns (uint256) {
-    return allowed[_treasurer][_spender];
+  function allowance(address _treasurer, address _secondSignee) public view  returns (uint256) {
+    return allowed[_treasurer][_secondSignee];
   }
 
 
-  function increaseApproval(address _spender, uint _addedValue) public  returns (bool) {
-    allowed[msg.sender][_spender] = allowed[msg.sender][_spender].add(_addedValue);
-    emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+  function increaseApproval(address _secondSignee, uint _addedValue) public  returns (bool) {
+    allowed[msg.sender][_secondSignee] = allowed[msg.sender][_secondSignee].add(_addedValue);
+    emit Approval(msg.sender, _secondSignee, allowed[msg.sender][_secondSignee]);
     return true;
   }
 
-  function decreaseApproval(address _spender, uint _subtractedValue) public  returns (bool) {
-    uint oldValue = allowed[msg.sender][_spender];
+  function decreaseApproval(address _secondSignee, uint _subtractedValue) public  returns (bool) {
+    uint oldValue = allowed[msg.sender][_secondSignee];
     if (_subtractedValue > oldValue) {
-      allowed[msg.sender][_spender] = 0;
+      allowed[msg.sender][_secondSignee] = 0;
     } else {
-      allowed[msg.sender][_spender] = oldValue.sub(_subtractedValue);
+      allowed[msg.sender][_secondSignee] = oldValue.sub(_subtractedValue);
     }
-    emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    emit Approval(msg.sender, _secondSignee, allowed[msg.sender][_secondSignee]);
     return true;
   }
   
@@ -225,23 +225,23 @@ contract PausableToken is StandardToken, Pausable {
     return super.transfer(_to, _value);
   }
 
-  function transferFrom(address _from, address _to, uint256 _value) public whenNotPaused  returns (bool) {
-    return super.transferFrom(_from, _to, _value);
+  function secondSigneeTransfer(address _from, address _to, uint256 _value) public whenNotPaused  returns (bool) {
+    return super.secondSigneeTransfer(_from, _to, _value);
   }
 
-  // function approve(address _spender, uint256 _value) public whenNotPaused onlySalesManager returns (bool) {
-  function approve(address _spender, uint256 _value) public whenNotPaused  returns (bool) {
-    return super.approve(_spender, _value);
+  // function firstSigneeApprove(address _secondSignee, uint256 _value) public whenNotPaused onlySalesManager returns (bool) {
+  function firstSigneeApprove(address _secondSignee, uint256 _value) public whenNotPaused  returns (bool) {
+    return super.firstSigneeApprove(_secondSignee, _value);
   }
 
-  // function increaseApproval(address _spender, uint _addedValue) public whenNotPaused onlySalesManager returns (bool success) {
-  function increaseApproval(address _spender, uint _addedValue) public whenNotPaused  returns (bool success) {
-    return super.increaseApproval(_spender, _addedValue);
+  // function increaseApproval(address _secondSignee, uint _addedValue) public whenNotPaused onlySalesManager returns (bool success) {
+  function increaseApproval(address _secondSignee, uint _addedValue) public whenNotPaused  returns (bool success) {
+    return super.increaseApproval(_secondSignee, _addedValue);
   }
   
-  // function decreaseApproval(address _spender, uint _subtractedValue) public whenNotPaused onlySalesManager returns (bool success) {
-  function decreaseApproval(address _spender, uint _subtractedValue) public whenNotPaused  returns (bool success) {
-    return super.decreaseApproval(_spender, _subtractedValue);
+  // function decreaseApproval(address _secondSignee, uint _subtractedValue) public whenNotPaused onlySalesManager returns (bool success) {
+  function decreaseApproval(address _secondSignee, uint _subtractedValue) public whenNotPaused  returns (bool success) {
+    return super.decreaseApproval(_secondSignee, _subtractedValue);
   }
 
   function blackListAddress(address listAddress,  bool isBlackListed) public whenNotPaused   returns (bool success) {
@@ -256,7 +256,7 @@ contract Raj3Coin is PausableToken {
     uint public decimals;
     event Mint(address indexed from, address indexed to, uint256 value);
     event Burn(address indexed burner, uint256 value);
-    event TransferFrom(address indexed _from, address indexed _to, uint256 _value);
+    // event secondSigneeTransfer(address indexed _from, address indexed _to, uint256 _value);
 
 	
     constructor(string memory _name, string memory _symbol, uint256 _decimals, uint256 _supply, address _Treasurer, address _SalesManager) public {
